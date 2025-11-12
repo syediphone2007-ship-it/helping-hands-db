@@ -1,73 +1,130 @@
-# Welcome to your Lovable project
+# Disaster Relief Resource Management System
 
-## Project info
+A comprehensive, production-ready full-stack web application for managing and coordinating disaster relief resources including shelters, food distribution, medical aid, and logistics.
 
-**URL**: https://lovable.dev/projects/5863445e-3463-4b23-b5dc-2c6fa0ff4e0f
+## Features
 
-## How can I edit this code?
+- **Role-Based Access Control**: Admin, Volunteer, and Public user roles with secure authentication
+- **Resource Management**: Full CRUD operations for disaster relief resources
+- **Interactive Map**: Leaflet-powered map showing resource locations in real-time
+- **Search & Filter**: Filter by resource type, status, and location
+- **Responsive Design**: Mobile-friendly interface optimized for field use
+- **Secure Backend**: Row-level security policies protecting sensitive data
+- **Real-time Updates**: Live resource availability tracking
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+**Frontend:**
+- React 18 with TypeScript
+- Tailwind CSS for responsive design
+- Shadcn/ui component library
+- Leaflet for interactive maps
+- React Router for navigation
+- TanStack Query for data fetching
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5863445e-3463-4b23-b5dc-2c6fa0ff4e0f) and start prompting.
+**Backend:**
+- Lovable Cloud (Supabase-powered)
+- PostgreSQL database
+- Row Level Security (RLS)
+- JWT-based authentication
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
+- Node.js 18+ and npm
+- Modern web browser
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Local Development
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Clone the repository**
+```bash
+git clone <your-repo-url>
+cd disaster-relief-system
+```
 
-Follow these steps:
+2. **Install dependencies**
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. **Start development server**
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### First Time Setup
 
-**Use GitHub Codespaces**
+1. **Create an account**: Visit `/auth` and sign up
+2. **Default role**: New users get "public" role by default
+3. **Admin access**: To grant admin privileges, update user_roles table in the backend
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## User Roles & Permissions
 
-## What technologies are used for this project?
+| Role | View Resources | Create Resources | Edit Resources | Delete Resources |
+|------|---------------|------------------|----------------|------------------|
+| Public | ✅ | ✅ | ❌ | ❌ |
+| Volunteer | ✅ | ✅ | ✅ | ❌ |
+| Admin | ✅ | ✅ | ✅ | ✅ |
 
-This project is built with:
+## Database Schema
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Tables
+- **profiles**: User profile information
+- **user_roles**: Role assignments (admin/volunteer/public)
+- **resources**: Disaster relief resources with location data
 
-## How can I deploy this project?
+### Security
+- All tables protected by Row Level Security
+- Secure role-checking functions prevent privilege escalation
+- Authentication required for write operations
 
-Simply open [Lovable](https://lovable.dev/projects/5863445e-3463-4b23-b5dc-2c6fa0ff4e0f) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+### Deploy to Lovable Cloud (Recommended)
+1. Click "Publish" in the Lovable editor
+2. Your backend and database are already configured
+3. Share the generated URL
 
-Yes, you can!
+### Self-Hosting
+Follow the [Lovable self-hosting guide](https://docs.lovable.dev/tips-tricks/self-hosting)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## API Documentation
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The system uses Lovable Cloud's auto-generated APIs. All database operations go through secure Supabase client with RLS policies.
+
+### Sample API Usage
+
+```typescript
+// Fetch all resources
+const { data } = await supabase
+  .from('resources')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// Create resource (requires authentication)
+const { error } = await supabase
+  .from('resources')
+  .insert([resourceData]);
+```
+
+## Environment Variables
+
+Automatically configured by Lovable Cloud:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_SUPABASE_PROJECT_ID`
+
+## Sample Data
+
+The system includes 8 sample resources across all categories to demonstrate functionality.
+
+## Support & Documentation
+
+- [Lovable Documentation](https://docs.lovable.dev/)
+- [Lovable Cloud Features](https://docs.lovable.dev/features/cloud)
+
+## License
+
+MIT License - Feel free to use for disaster relief coordination.
